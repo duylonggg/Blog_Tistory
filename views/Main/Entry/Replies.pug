@@ -572,3 +572,96 @@ script.
       }
     }).observe(document.body, { childList: true, subtree: true });
   })();
+
+script.
+  (function(){
+    const DIGITS = /\d+/;
+
+    function parseCount(label){
+      if(!label) return 0;
+      const t = (label.textContent || '').trim();
+      const m = t.match(DIGITS);
+      return m ? parseInt(m[0], 10) : 0;
+    }
+
+    function isLiked(host){
+      const btn = host.querySelector('button.btn_post');
+      return host.classList.contains('on') ||
+             (btn && (btn.classList.contains('on') ||
+                      btn.getAttribute('aria-pressed') === 'true'));
+    }
+
+    function render(host){
+      if(!host) return;
+      const icon  = host.querySelector('.ico_postbtn.ico_like');   // "좋아요"
+      const label = host.querySelector('.txt_like.uoc-count');     // "공감" hoặc số
+
+      if(icon) icon.textContent = 'Like'; // icon bên trái luôn là "Like"
+
+      let count = parseCount(label);
+      const liked = isLiked(host);
+
+      // Quy tắc hiển thị:
+      // - count <= 0: nếu đang liked => "1", ngược lại => "Like"
+      // - count > 0: hiển thị số
+      if(label){
+        if(count <= 0){
+          label.textContent = liked ? '1' : 'Like';
+        } else {
+          label.textContent = String(count);
+        }
+      }
+    }
+
+    function wire(host){
+      if(!host || host.__wired) return;
+      host.__wired = true;
+
+      render(host);
+
+      // Quan sát thay đổi trạng thái like (class/aria-pressed)
+      const btn = host.querySelector('button.btn_post');
+      [host, btn].filter(Boolean).forEach(t => {
+        new MutationObserver(() => render(host))
+          .observe(t, { attributes: true, attributeFilter: ['class','aria-pressed'] });
+      });
+
+      // Quan sát label để cập nhật khi React đổi số
+      const label = host.querySelector('.txt_like.uoc-count');
+      if(label){
+        new MutationObserver(() => render(host))
+          .observe(label, { characterData: true, childList: true, subtree: true });
+      }
+    }
+
+    function scan(root=document){
+      root.querySelectorAll('[data-tistory-react-app="Reaction"]').forEach(wire);
+    }
+
+    document.addEventListener('DOMContentLoaded', scan);
+
+    // Sau khi click, đợi React cập nhật rồi chuẩn hóa hiển thị
+    document.addEventListener('click', (e) => {
+      const host = e.target.closest && e.target.closest('[data-tistory-react-app="Reaction"]');
+      if(host){ setTimeout(() => render(host), 50); setTimeout(() => render(host), 250); }
+    }, true);
+
+    // Bắt các render động
+    new MutationObserver((muts) => {
+      muts.forEach(m => {
+        m.addedNodes && m.addedNodes.forEach(n => {
+          if(n.nodeType === 1){
+            if(n.matches?.('[data-tistory-react-app="Reaction"]')) wire(n);
+            else scan(n);
+          }
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  })();
+
+style.
+  [data-tistory-react-app="Reaction"] .ico_postbtn.ico_like,
+  [data-tistory-react-app="Reaction"] .txt_like.uoc-count {
+    font-size: 12px !important; line-height: 1.2;
+  }
+
