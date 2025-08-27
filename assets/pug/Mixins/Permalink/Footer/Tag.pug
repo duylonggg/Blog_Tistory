@@ -6,20 +6,15 @@ s_tag_label
 
 script.
   document.addEventListener('alpine:init', () => Alpine.data('tag', () => ({
-    /**
-     * Init
-     */
     init () {
-      this.removeAllCommas()
+      this.cleanTextNodes()
     },
-
-    /**
-     * Remove all commas
-     */
-    removeAllCommas () {
-      for (const node of this.$el.childNodes) {
+    // Xoá dấu phẩy & mọi text-node tiếng Hàn “태그 …”
+    cleanTextNodes () {
+      for (const node of Array.from(this.$el.childNodes)) {
         if (node.nodeType === 3) {
-          node.remove()
+          const txt = (node.textContent || '').trim()
+          if (!txt || txt === ',' || /태그/.test(txt)) node.remove()
         }
       }
     }
@@ -38,6 +33,12 @@ style(once='tags')
 
         &:first-of-type::before {
           @apply mr-2 fa-tag;
+        }
+
+        /* <-- thêm: gắn chữ "Tag" sau tên thẻ */
+        &:first-of-type::after {
+          content: " Tag";
+          @apply ml-1;
         }
       }
     }

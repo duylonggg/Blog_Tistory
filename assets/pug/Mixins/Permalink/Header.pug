@@ -16,9 +16,14 @@ header#header(
       unless hasCategory
         case type
           when 'notice'
-            a.category(class='/notice') 공지사항
+            a.category(class='/notice') Notice
       else
-        a.category(href='[##_article_rep_category_link_##]') [##_article_rep_category_##]
+        a.category(
+          :href='"[##_article_rep_category_link_##]"'
+          x-data='{ cat: "[##_article_rep_category_##]" }'
+          x-text='(cat || "").trim() && !/(카테고리 없음|분류없음)/.test(cat) ? cat : "Uncategorized"'
+          title='Category'
+        )
       if hasCategory
         include Header/Admin
 

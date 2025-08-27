@@ -1,9 +1,22 @@
 s_list
   section#list(
     x-data='{ listStyle: "[##_list_style_##]" }'
-    x-init='$store.header.title = "[##_list_conform_##]"'
+    x-init=`(function () {
+      var t = "[##_tag_##]".trim();
+      $store.header.title = t ? ("Posts tagged '" + t + "'") : "All Posts";
+    })()`
     :data-list-style='listStyle')
     s_list_rep
       +index('list_rep')
     s_list_empty
       include List/Empty
+
+
+script.
+  document.addEventListener('DOMContentLoaded', () => {
+    const el = document.querySelector('#top .tit .txt');
+    if (!el) return;
+    const s = (el.textContent || '').trim();
+    const m = s.match(/^'(.+?)'\s*태그의\s*글\s*목록$/);
+    if (m) el.textContent = `List of articles tagged '${m[1]}'`;
+  });

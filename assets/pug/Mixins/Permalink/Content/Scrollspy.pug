@@ -15,7 +15,7 @@ template(x-if='$data.headings.length > 0')
         x-show='! open'
         @click='toggle'
         class='fixed top-20 right-0 w-8 h-8 z-[200] rounded-md bg-h-200 text-h-500 dark:bg-h-700 dark:text-h-200 2xl:hidden')
-        span.txt(class='text-hidden') 목차
+        span.txt(class='text-hidden') Table of Contents
         i.ico(class='fa-solid fa-list-check')
       //- max-height: 100vh - (offset-top) - (bottom-button-height) - (extra-margin)
       .wrap(
@@ -25,7 +25,7 @@ template(x-if='$data.headings.length > 0')
           button.close(
             @click='toggle'
             class='absolute text-base top-3 right-4 text-h-500 dark:text-h-200 2xl:hidden')
-            span.txt(class='text-hidden') 목차 닫기
+            span.txt(class='text-hidden') Close Table of Contents
             i.ico(class='fa-solid fa-xmark')
           ol.tits(class='flex flex-col gap-y-3 max-2xl:p-6 max-2xl:pt-8 max-2xl:pr-14 2xl:px-8')
             template(x-for='heading in $data.headings' :key='heading.id')

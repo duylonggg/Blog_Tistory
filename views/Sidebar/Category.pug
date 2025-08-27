@@ -1,5 +1,7 @@
 li#category.el(x-data='category')
-  | [##_category_list_##]
+  ul.menu
+    li
+      a(href='/') Home
 
 script.
   document.addEventListener('alpine:init', () => Alpine.data('category', () => ({

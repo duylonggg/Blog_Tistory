@@ -52,6 +52,10 @@ mixin description(type, hasCategory)
     unless hasCategory
       case type
         when 'notice_rep'
-          .category 공지사항
+          .category Notice
     else
-      .category #{`[##_${type}_category_##]`}
+      a.category(
+        :href='"[##_${type}_category_link_##]"'
+        x-data=`{ cat: "[##_${type}_category_##]" }`
+        x-text='(cat || "").trim() && !/(카테고리 없음|분류없음)/.test(cat) ? cat : "Uncategorized"'
+      )

@@ -1,7 +1,15 @@
 mixin admin()
-  a.modify(href='[##_s_ad_m_link_##]') 수정
-  button.delete(onclick='[##_s_ad_d_onclick_##]') 삭제
-  button.visibility(onclick='[##_s_ad_s2_onclick_##]') [##_s_ad_s1_label_##]
+  a.modify(href='[##_s_ad_m_link_##]') Edit
+  button.delete(type='button' onclick='[##_s_ad_d_onclick_##]') Delete
+  // Ép tiếng Anh và tự cập nhật sau khi toggle
+  button.visibility(
+    type='button'
+    onclick='[##_s_ad_s2_onclick_##]'
+    x-data=`{ label: "[##_s_ad_s1_label_##]" }`
+    x-init='label = (label || "").trim()'
+    x-text='label === "비공개" ? "Private" : label === "공개" ? "Public" : label'
+    @click='label = (label === "비공개" ? "공개" : "비공개")'
+  )
 
 span#admin(class='flex gap-x-1')
   if process.env.NODE_ENV === 'development'

@@ -15,357 +15,357 @@
   <liststyle>
     <item>
       <value>list</value>
-      <label>[베이직] 리스트 (1단)</label>
+      <label>[Basic] List (1 column)</label>
     </item>
     <item>
       <value>grid</value>
-      <label>[베이직] 그리드 (3단)</label>
+      <label>[Basic] Grid (3 columns)</label>
     </item>
     <item>
       <value>gallery</value>
-      <label>[베이직] 갤러리 (3단)</label>
+      <label>[Basic] Gallery (3 columns)</label>
     </item>
     <item>
       <value>Z</value>
-      <label>[베이직] Z</label>
+      <label>[Basic] Z</label>
     </item>
   </liststyle>
   <cover>
     <item>
       <name>list</name>
-      <label>[베이직] 리스트 (1단)</label>
-      <description>리스트 (1단)</description>
+      <label>[Basic] List (1 column)</label>
+      <description>List (1 column)</description>
     </item>
     <item>
       <name>grid</name>
-      <label>[베이직] 그리드 (3단)</label>
-      <description>그리드 (3단)</description>
+      <label>[Basic] Grid (3 columns)</label>
+      <description>Grid (3 columns)</description>
     </item>
     <item>
       <name>Z</name>
-      <label>[베이직] Z</label>
+      <label>[Basic] Z</label>
       <description>Z</description>
     </item>
     <item>
       <name>slider</name>
-      <label>[베이직] 슬라이더</label>
-      <description>슬라이더</description>
+      <label>[Basic] Slider</label>
+      <description>Slider</description>
     </item>
     <item>
       <name>gallery</name>
-      <label>[베이직] 갤러리 (3단)</label>
-      <description>갤러리</description>
+      <label>[Basic] Gallery (3 columns)</label>
+      <description>Gallery (3 columns)</description>
     </item>
     <item>
       <name>empty-line-1</name>
-      <label>[빈 줄] 빈 줄 (1)</label>
-      <description>[빈 줄] 빈 줄 (1)</description>
+      <label>[Empty line] Line (1)</label>
+      <description>[Empty line] Line (1)</description>
     </item>
     <item>
       <name>empty-line-2</name>
-      <label>[빈 줄] 빈 줄 (2)</label>
-      <description>[빈 줄] 빈 줄 (2)</description>
+      <label>[Empty line] Line (2)</label>
+      <description>[Empty line] Line (2)</description>
     </item>
     <item>
       <name>empty-line-3</name>
-      <label>[빈 줄] 빈 줄 (3)</label>
-      <description>[빈 줄] 빈 줄 (3)</description>
+      <label>[Empty line] Line (3)</label>
+      <description>[Empty line] Line (3)</description>
     </item>
     <item>
       <name>empty-line-4</name>
-      <label>[빈 줄] 빈 줄 (4)</label>
-      <description>[빈 줄] 빈 줄 (4)</description>
+      <label>[Empty line] Line (4)</label>
+      <description>[Empty line] Line (4)</description>
     </item>
     <item>
       <name>empty-line-5</name>
-      <label>[빈 줄] 빈 줄 (5)</label>
-      <description>[빈 줄] 빈 줄 (5)</description>
+      <label>[Empty line] Line (5)</label>
+      <description>[Empty line] Line (5)</description>
     </item>
     <item>
       <name>profile</name>
-      <label>[포트폴리오] 프로필</label>
-      <description>[포트폴리오] 프로필</description>
+      <label>[Portfolio] Profile</label>
+      <description>[Portfolio] Profile</description>
     </item>
     <item>
       <name>poster</name>
-      <label>[포트폴리오] 포스터</label>
-      <description>[포트폴리오] 포스터</description>
+      <label>[Portfolio] Poster</label>
+      <description>[Portfolio] Poster</description>
     </item>
     <item>
       <name>square</name>
-      <label>[포트폴리오] 스퀘어</label>
-      <description>[포트폴리오] 스퀘어</description>
+      <label>[Portfolio] Square</label>
+      <description>[Portfolio] Square</description>
     </item>
     <item>
       <name>picture-1-1-l</name>
-      <label>[포트폴리오] 사진 (1:1)/왼쪽</label>
-      <description>[포트폴리오] 사진 (1:1)/왼쪽</description>
+      <label>[Portfolio] Picture (1:1)/Left</label>
+      <description>[Portfolio] Picture (1:1)/Left</description>
     </item>
     <item>
       <name>picture-1-1-c</name>
-      <label>[포트폴리오] 사진 (1:1)/중앙</label>
-      <description>[포트폴리오] 사진 (1:1)/중앙</description>
+      <label>[Portfolio] Picture (1:1)/Center</label>
+      <description>[Portfolio] Picture (1:1)/Center</description>
     </item>
     <item>
       <name>picture-1-1-r</name>
-      <label>[포트폴리오] 사진 (1:1)/오른쪽</label>
-      <description>[포트폴리오] 사진 (1:1)/오른쪽</description>
+      <label>[Portfolio] Picture (1:1)/Right</label>
+      <description>[Portfolio] Picture (1:1)/Right</description>
     </item>
     <item>
       <name>picture-2-3-l</name>
-      <label>[포트폴리오] 사진 (2:3)/왼쪽</label>
-      <description>[포트폴리오] 사진 (2:3)/왼쪽</description>
+      <label>[Portfolio] Picture (2:3)/Left</label>
+      <description>[Portfolio] Picture (2:3)/Left</description>
     </item>
     <item>
       <name>picture-2-3-c</name>
-      <label>[포트폴리오] 사진 (2:3)/중앙</label>
-      <description>[포트폴리오] 사진 (2:3)/중앙</description>
+      <label>[Portfolio] Picture (2:3)/Center</label>
+      <description>[Portfolio] Picture (2:3)/Center</description>
     </item>
     <item>
       <name>picture-2-3-r</name>
-      <label>[포트폴리오] 사진 (2:3)/오른쪽</label>
-      <description>[포트폴리오] 사진 (2:3)/오른쪽</description>
+      <label>[Portfolio] Picture (2:3)/Right</label>
+      <description>[Portfolio] Picture (2:3)/Right</description>
     </item>
     <item>
       <name>list-2</name>
-      <label>[포트폴리오] 리스트 (2단)</label>
-      <description>[포트폴리오] 리스트 (2단)</description>
+      <label>[Portfolio] List (2 columns)</label>
+      <description>[Portfolio] List (2 columns)</description>
     </item>
     <item>
       <name>grid-2</name>
-      <label>[포트폴리오] 그리드 (2단)</label>
-      <description>[포트폴리오] 그리드 (2단)</description>
+      <label>[Portfolio] Grid (2 columns)</label>
+      <description>[Portfolio] Grid (2 columns)</description>
     </item>
     <item>
       <name>N</name>
-      <label>[포트폴리오] N</label>
-      <description>[포트폴리오] N</description>
+      <label>[Portfolio] N</label>
+      <description>[Portfolio] N</description>
     </item>
     <item>
       <name>Z-</name>
-      <label>[포트폴리오] Z-</label>
-      <description>[포트폴리오] Z-</description>
+      <label>[Portfolio] Z-</label>
+      <description>[Portfolio] Z-</description>
     </item>
     <item>
       <name>grid-5</name>
-      <label>[포트폴리오] 그리드 (5단)</label>
-      <description>[포트폴리오] (5단)</description>
+      <label>[Portfolio] Grid (5 columns)</label>
+      <description>[Portfolio] (5 columns)</description>
     </item>
     <item>
       <name>title-summary-1/2</name>
-      <label>[타이포그래피] 제목과 설명 (1/2)</label>
-      <description>[타이포그래피] 제목과 설명 (1/2)</description>
+      <label>[Typography] Title and Description (1/2)</label>
+      <description>[Typography] Title and Description (1/2)</description>
     </item>
     <item>
       <name>title-summary-2</name>
-      <label>[타이포그래피] 제목과 설명 (2단)</label>
-      <description>[타이포그래피] 제목과 설명 (2단)</description>
+      <label>[Typography] Title and Description (2 columns)</label>
+      <description>[Typography] Title and Description (2 columns)</description>
     </item>
     <item>
       <name>title-l-3xl</name>
-      <label>[타이포그래피] 제목 (3X-Large)/왼쪽</label>
-      <description>[타이포그래피] 제목 (3X-Large)/왼쪽</description>
+      <label>[Typography] Title (3X-Large)/Left</label>
+      <description>[Typography] Title (3X-Large)/Left</description>
     </item>
     <item>
       <name>title-c-3xl</name>
-      <label>[타이포그래피] 제목 (3X-Large)/중앙</label>
-      <description>[타이포그래피] 제목 (3X-Large)/중앙</description>
+      <label>[Typography] Title (3X-Large)/Center</label>
+      <description>[Typography] Title (3X-Large)/Center</description>
     </item>
     <item>
       <name>title-r-3xl</name>
-      <label>[타이포그래피] 제목 (3X-Large)/오른쪽</label>
-      <description>[타이포그래피] 제목 (3X-Large)/오른쪽</description>
+      <label>[Typography] Title (3X-Large)/Right</label>
+      <description>[Typography] Title (3X-Large)/Right</description>
     </item>
     <item>
       <name>title-l-2xl</name>
-      <label>[타이포그래피] 제목 (2X-Large)/왼쪽</label>
-      <description>[타이포그래피] 제목 (2X-Large)/왼쪽</description>
+      <label>[Typography] Title (2X-Large)/Left</label>
+      <description>[Typography] Title (2X-Large)/Left</description>
     </item>
     <item>
       <name>title-c-2xl</name>
-      <label>[타이포그래피] 제목 (2X-Large)/중앙</label>
-      <description>[타이포그래피] 제목 (2X-Large)/중앙</description>
+      <label>[Typography] Title (2X-Large)/Center</label>
+      <description>[Typography] Title (2X-Large)/Center</description>
     </item>
     <item>
       <name>title-r-2xl</name>
-      <label>[타이포그래피] 제목 (2X-Large)/오른쪽</label>
-      <description>[타이포그래피] 제목 (2X-Large)/오른쪽</description>
+      <label>[Typography] Title (2X-Large)/Right</label>
+      <description>[Typography] Title (2X-Large)/Right</description>
     </item>
     <item>
       <name>title-l-xl</name>
-      <label>[타이포그래피] 제목 (X-Large)/왼쪽</label>
-      <description>[타이포그래피] 제목 (X-Large)/왼쪽</description>
+      <label>[Typography] Title (X-Large)/Left</label>
+      <description>[Typography] Title (X-Large)/Left</description>
     </item>
     <item>
       <name>title-c-xl</name>
-      <label>[타이포그래피] 제목 (X-Large)/중앙</label>
-      <description>[타이포그래피] 제목 (X-Large)/중앙</description>
+      <label>[Typography] Title (X-Large)/Center</label>
+      <description>[Typography] Title (X-Large)/Center</description>
     </item>
     <item>
       <name>title-r-xl</name>
-      <label>[타이포그래피] 제목 (X-Large)/오른쪽</label>
-      <description>[타이포그래피] 제목 (X-Large)/오른쪽</description>
+      <label>[Typography] Title (X-Large)/Right</label>
+      <description>[Typography] Title (X-Large)/Right</description>
     </item>
     <item>
       <name>title-l-lg</name>
-      <label>[타이포그래피] 제목 (Large)/왼쪽</label>
-      <description>[타이포그래피] 제목 (Large)/왼쪽</description>
+      <label>[Typography] Title (Large)/Left</label>
+      <description>[Typography] Title (Large)/Left</description>
     </item>
     <item>
       <name>title-c-lg</name>
-      <label>[타이포그래피] 제목 (Large)/중앙</label>
-      <description>[타이포그래피] 제목 (Large)/중앙</description>
+      <label>[Typography] Title (Large)/Center</label>
+      <description>[Typography] Title (Large)/Center</description>
     </item>
     <item>
       <name>title-r-lg</name>
-      <label>[타이포그래피] 제목 (Large)/오른쪽</label>
-      <description>[타이포그래피] 제목 (Large)/오른쪽</description>
+      <label>[Typography] Title (Large)/Right</label>
+      <description>[Typography] Title (Large)/Right</description>
     </item>
     <item>
       <name>title-l</name>
-      <label>[타이포그래피] 제목/왼쪽</label>
-      <description>[타이포그래피] 제목/왼쪽</description>
+      <label>[Typography] Title/Left</label>
+      <description>[Typography] Title/Left</description>
     </item>
     <item>
       <name>title-c</name>
-      <label>[타이포그래피] 제목/중앙</label>
-      <description>[타이포그래피] 제목/중앙</description>
+      <label>[Typography] Title/Center</label>
+      <description>[Typography] Title/Center</description>
     </item>
     <item>
       <name>title-r</name>
-      <label>[타이포그래피] 제목/오른쪽</label>
-      <description>[타이포그래피] 제목/오른쪽</description>
+      <label>[Typography] Title/Right</label>
+      <description>[Typography] Title/Right</description>
     </item>
     <item>
       <name>summary-title-1/2</name>
-      <label>[타이포그래피] 설명과 제목 (1/2)</label>
-      <description>[타이포그래피] 설명과 제목 (1/2)</description>
+      <label>[Typography] Description and Title (1/2)</label>
+      <description>[Typography] Description and Title (1/2)</description>
     </item>
     <item>
       <name>summary-l</name>
-      <label>[타이포그래피] 설명/왼쪽</label>
-      <description>[타이포그래피] 설명/왼쪽</description>
+      <label>[Typography] Description/Left</label>
+      <description>[Typography] Description/Left</description>
     </item>
     <item>
       <name>summary-c</name>
-      <label>[타이포그래피] 설명/중앙</label>
-      <description>[타이포그래피] 설명/중앙</description>
+      <label>[Typography] Description/Center</label>
+      <description>[Typography] Description/Center</description>
     </item>
     <item>
       <name>summary-r</name>
-      <label>[타이포그래피] 설명/오른쪽</label>
-      <description>[타이포그래피] 설명/오른쪽</description>
+      <label>[Typography] Description/Right</label>
+      <description>[Typography] Description/Right</description>
     </item>
     <item>
       <name>button-l</name>
-      <label>[타이포그래피] 버튼/왼쪽</label>
-      <description>[타이포그래피] 버튼/왼쪽</description>
+      <label>[Typography] Button/Left</label>
+      <description>[Typography] Button/Left</description>
     </item>
     <item>
       <name>button-c</name>
-      <label>[타이포그래피] 버튼/중앙</label>
-      <description>[타이포그래피] 버튼/중앙</description>
+      <label>[Typography] Button/Center</label>
+      <description>[Typography] Button/Center</description>
     </item>
     <item>
       <name>button-r</name>
-      <label>[타이포그래피] 버튼/오른쪽</label>
-      <description>[타이포그래피] 버튼/오른쪽</description>
+      <label>[Typography] Button/Right</label>
+      <description>[Typography] Button/Right</description>
     </item>
     <item>
       <name>link-l</name>
-      <label>[타이포그래피] 링크/왼쪽</label>
-      <description>[타이포그래피] 링크/왼쪽</description>
+      <label>[Typography] Link/Left</label>
+      <description>[Typography] Link/Left</description>
     </item>
     <item>
       <name>link-c</name>
-      <label>[타이포그래피] 링크/중앙</label>
-      <description>[타이포그래피] 링크/중앙</description>
+      <label>[Typography] Link/Center</label>
+      <description>[Typography] Link/Center</description>
     </item>
     <item>
       <name>link-r</name>
-      <label>[타이포그래피] 링크/오른쪽</label>
-      <description>[타이포그래피] 링크/오른쪽</description>
+      <label>[Typography] Link/Right</label>
+      <description>[Typography] Link/Right</description>
     </item>
     <item>
       <name>keyword-l</name>
-      <label>[타이포그래피] 키워드/왼쪽</label>
-      <description>[타이포그래피] 키워드/왼족</description>
+      <label>[Typography] Keyword/Left</label>
+      <description>[Typography] Keyword/Left</description>
     </item>
     <item>
       <name>keyword-c</name>
-      <label>[타이포그래피] 키워드/중앙</label>
-      <description>[타이포그래피] 키워드/중앙</description>
+      <label>[Typography] Keyword/Center</label>
+      <description>[Typography] Keyword/Center</description>
     </item>
     <item>
       <name>keyword-r</name>
-      <label>[타이포그래피] 키워드/오른쪽</label>
-      <description>[타이포그래피] 키워드/오른쪽</description>
+      <label>[Typography] Keyword/Right</label>
+      <description>[Typography] Keyword/Right</description>
     </item>
   </cover>
   <variables>
-    <variablegroup name="사이드바">
+    <variablegroup name="Sidebar">
       <variable>
         <name>sidebar</name>
-        <label>사이드바 펼치기/접기</label>
-        <description><![CDATA[ 사이드바 ]]></description>
+        <label>Expand/Collapse Sidebar</label>
+        <description><![CDATA[ Sidebar ]]></description>
         <type>BOOL</type>
         <default>true</default>
       </variable>
       <variable>
         <name>foldable-category</name>
-        <label>카테고리 접기/펼치기</label>
-        <description><![CDATA[ 카테고리 접기/펼치기 ]]></description>
+        <label>Collapse/Expand Categories</label>
+        <description><![CDATA[ Collapse/Expand Categories ]]></description>
         <type>BOOL</type>
         <default>true</default>
       </variable>
     </variablegroup>
-    <variablegroup name="글">
+    <variablegroup name="Post">
       <variable>
         <name>header-style</name>
-        <label>헤더 스타일</label>
-        <description><![CDATA[ 헤더 스타일 ]]></description>
+        <label>Header Style</label>
+        <description><![CDATA[ Header Style ]]></description>
         <type>SELECT</type>
         <option><![CDATA[
           [
-            {"name":"simple", "label":"심플", "value":"simple"},
-            {"name":"thumbnail", "label":"섬네일", "value":"thumbnail"},
-            {"name":"screen", "label":"스크린", "value":"screen"}
+            {"name":"simple", "label":"Simple", "value":"simple"},
+            {"name":"thumbnail", "label":"Thumbnail", "value":"thumbnail"},
+            {"name":"screen", "label":"Screen", "value":"screen"}
           ]
         ]]></option>
         <default>thumbnail</default>
       </variable>
       <variable>
         <name>width</name>
-        <label>너비</label>
-        <description><![CDATA[ 너비 ]]></description>
+        <label>Width</label>
+        <description><![CDATA[ Width ]]></description>
         <type>STRING</type>
         <default>720</default>
       </variable>
       <variable>
         <name>toc</name>
-        <label>목차(Table Of Contents)</label>
-        <description><![CDATA[ 목차(Table Of Contents) ]]></description>
+        <label>Table Of Contents</label>
+        <description><![CDATA[ Table Of Contents ]]></description>
         <type>BOOL</type>
         <default>true</default>
       </variable>
       <variable>
         <name>scrollspy</name>
-        <label>목차(Scrollspy)</label>
-        <description><![CDATA[ 목차 (Scrollspy) ]]></description>
+        <label>Table Of Contents (Scrollspy)</label>
+        <description><![CDATA[ Table Of Contents (Scrollspy) ]]></description>
         <type>BOOL</type>
         <default>true</default>
       </variable>
       <variable>
         <name>hljs</name>
-        <label>코드 하이라이팅(Light)</label>
-        <description><![CDATA[ 코드 하이라이팅(Light) ]]></description>
+        <label>Code Highlighting (Light)</label>
+        <description><![CDATA[ Code Highlighting (Light) ]]></description>
         <type>STRING</type>
         <default>xcode</default>
       </variable>
       <variable>
         <name>hljs-dark</name>
-        <label>코드 하이라이팅(Dark)</label>
-        <description><![CDATA[ 코드 하이라이팅(Dark) ]]></description>
+        <label>Code Highlighting (Dark)</label>
+        <description><![CDATA[ Code Highlighting (Dark) ]]></description>
         <type>STRING</type>
         <default>vs2015</default>
       </variable>

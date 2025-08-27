@@ -1,3 +1,574 @@
 section#replies(class='permalink-container')
   s_rp
     +group('comment')
+
+script.
+  try {
+    (() => {
+      const toEn = s => {
+        s = (s || '').trim();
+        if (s === '방금 전' || s === '방금전' || s === '방금') return 'Just now';
+        if (s === '어제') return 'yesterday';
+        const m = s.replace(/\s/g,'').match(/^(\d+)(초|분|시간|일|개월|년)전$/);
+        if (!m) return s;
+        const n = +m[1], map = {초:'second',분:'minute',시간:'hour',일:'day',개월:'month',년:'year'};
+        const u = map[m[2]] || '';
+        return `${n} ${u}${n>1?'s':''} ago`;
+      };
+
+      const processed = new WeakSet();
+      const root = document.getElementById('replies') || document;
+      const translate = node => {
+        (node.querySelectorAll?.('.tt_date, .date') || []).forEach(el => {
+          if (processed.has(el)) return;
+          const ko = (el.textContent || '').trim();
+          const en = toEn(ko);
+          if (en !== ko) el.textContent = en;
+          processed.add(el);
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', () => translate(root));
+      new MutationObserver(muts => {
+        muts.forEach(m => m.addedNodes.forEach(n => translate(n)));
+      }).observe(root, { childList: true, subtree: true });
+    })();
+  } catch (_) {}
+
+style.
+  #replies .tt_date,
+  #replies .date {
+    font-size: 12px !important;
+    line-height: 1.2;
+  }
+
+// == Translate the post "..." etc layer (Edit / Private / Public / Delete / Report)
+script.
+  (() => {
+    const MAP = new Map([
+      ['수정', 'Edit'],
+      ['비공개로 변경', 'Make Private'],
+      ['공개로 변경', 'Make Public'],
+      ['삭제', 'Delete'],
+      ['신고하기', 'Report'],
+      ['신고', 'Report'],
+      ['링크복사', 'Copy Link'],
+    ]);
+
+    const translateEtc = (root = document) => {
+      root.querySelectorAll('#tistoryEtcLayer .btn_mark').forEach(btn => {
+        const ko = (btn.textContent || '').trim();
+        const en = MAP.get(ko);
+        if (en) {
+          btn.textContent = en;
+          btn.title = en;
+          btn.setAttribute('aria-label', en);
+        }
+      });
+    };
+
+    // run when layer opens (rendered dynamically)
+    document.addEventListener('click', e => {
+      if (e.target.closest('.btn_etc1') || e.target.closest('#tistoryEtcLayer')) {
+        requestAnimationFrame(() => translateEtc());
+      }
+    }, true);
+
+    // observe DOM changes for re-renders
+    new MutationObserver(muts => muts.forEach(m =>
+      m.addedNodes.forEach(n => {
+        if (n.nodeType !== 1) return;
+        if (n.id === 'tistoryEtcLayer' || n.querySelector?.('#tistoryEtcLayer')) translateEtc(n);
+      })
+    )).observe(document.body, { childList: true, subtree: true });
+
+    // initial (in case it's already present)
+    document.addEventListener('DOMContentLoaded', () => translateEtc());
+  })();
+
+// Alert 
+script.
+  (() => {
+    const MAP = [
+      // Pin comment
+      [/이\s*댓글을\s*고정하시겠습니까\?\s*이미\s*고정한\s*댓글이\s*있으면\s*이\s*댓글로\s*바뀝니다\.\s*$/,
+       'Pin this comment?\nIf another comment is already pinned, it will be replaced by this one.'],
+
+      // Delete comment
+      [/^댓글을\s*삭제하시겠습니까\?\s*$/, 'Delete this comment?'],
+
+      // Delete post (+ images)
+      [/이\s*글(?:\s*및\s*이미지\s*파일)?을?\s*완전히\s*삭제합니다\.\s*계속하시겠습니까\?\s*$/,
+       'This post and image files will be permanently deleted. Continue?'],
+
+      // Report post
+      [
+        /불법촬영물등\s*유통\s*신고[\s\S]*?계속\s*진행하시겠습니까\?\s*음란,\s*청소년\s*유해\s*사유로\s*선택하여\s*신고하시면\s*신고서\s*제출\s*없이\s*더\s*빠르게\s*조치됩니다\.?/,
+        'Reporting the distribution of illegal filming materials requires consent to collect and use personal information and submission of a report form. Continue? For “Obscene” or “Harmful to minors”, select that reason to proceed without submitting the form for faster processing.'
+      ],
+    ];
+
+    const t = s => {
+      s = String(s || '').trim();
+      for (const [re, en] of MAP) if (re.test(s)) return en;
+      return s;
+    };
+
+    const _confirm = window.confirm, _alert = window.alert, _prompt = window.prompt;
+    window.confirm = function (m)    { return _confirm.call(this, t(m)); };
+    window.alert   = function (m)    { return _alert.call(this,   t(m)); };
+    window.prompt  = function (m, d) { return _prompt.call(this, t(m), d); };
+  })();
+
+script.
+  (() => {
+    const LABEL = '✓ Copied to clipboard';
+
+    // Chỉ chỉnh toast copy: khi box rỗng hoặc còn chữ Hàn
+    const shouldTranslate = el => {
+      const t = (el.textContent || '').trim();
+      return !t || /[ㄱ-ㅎ가-힣]/.test(t);
+    };
+
+    const fixToast = (box) => {
+      if (!box || !box.classList || !box.classList.contains('tt-box-tooltip')) return;
+      if (!shouldTranslate(box)) return;
+
+      // Giữ cấu trúc .txt để CSS của Tistory áp dụng đúng
+      let txt = box.querySelector('.txt');
+      if (!txt) {
+        txt = document.createElement('span');
+        txt.className = 'txt';
+        box.innerHTML = '';
+        box.appendChild(txt);
+      }
+      txt.textContent = LABEL;
+      txt.style.fontSize = '12px';
+      txt.style.lineHeight = '1.2';
+    };
+
+    const scan = (root=document) => {
+      root.querySelectorAll('.tt-box-tooltip').forEach(fixToast);
+    };
+
+    // Chạy ngay
+    scan();
+
+    // Khi toast được thêm vào DOM
+    new MutationObserver(muts => {
+      for (const m of muts) {
+        for (const n of m.addedNodes) {
+          if (n.nodeType === 1) {
+            if (n.classList?.contains('tt-box-tooltip')) fixToast(n);
+            else scan(n);
+          }
+        }
+      }
+    }).observe(document.body, { childList: true, subtree: true });
+
+    // Khi class hiển thị được toggle (tt-show-box-tooltip)
+    const watchAttr = (el) =>
+      new MutationObserver(ms => ms.forEach(m => {
+        if (m.attributeName === 'class' &&
+            el.classList.contains('tt-show-box-tooltip')) fixToast(el);
+      })).observe(el, { attributes: true });
+
+    document.querySelectorAll('.tt-box-tooltip').forEach(watchAttr);
+    new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => {
+      if (n.nodeType === 1 && n.classList?.contains('tt-box-tooltip')) watchAttr(n);
+    }))).observe(document.body, { childList: true, subtree: true });
+  })();
+
+style.
+  .tt-box-tooltip,
+  .tt-box-tooltip * { color: #fff !important; }
+  .tt-box-tooltip svg { fill: #fff !important; stroke: #fff !important; }
+  .tt-box-tooltip { font-size: 12px; }
+
+
+script.
+  (() => {
+    function apply(root = document) {
+      root.querySelectorAll('.tt-box-account input').forEach(el => {
+        const ph = (el.getAttribute('placeholder') || '').trim();
+        if (ph === '이름') {
+          el.placeholder = 'Name';
+          el.title = 'Name';
+        } else if (ph === '비밀번호') {
+          el.placeholder = 'Password';
+          el.title = 'Password';
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', () => apply());
+    new MutationObserver(muts => muts.forEach(m =>
+      m.addedNodes.forEach(n => n.nodeType === 1 && apply(n))
+    )).observe(document.body, { childList: true, subtree: true });
+  })();
+
+script.
+  (() => {
+    const KO = '로그인 댓글만 허용한 블로그입니다';
+    const EN = 'Only logged-in users can comment.';
+
+    function apply(root = document) {
+      root.querySelectorAll('textarea#comment, textarea[placeholder]').forEach(el => {
+        const ph = (el.getAttribute('placeholder') || '').trim();
+        if (ph === KO || /로그인\s*댓글만\s*허용/.test(ph)) {
+          el.setAttribute('placeholder', EN);
+          el.setAttribute('title', EN);
+          el.setAttribute('aria-label', EN);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', apply);
+    new MutationObserver(muts => muts.forEach(m =>
+      m.addedNodes.forEach(n => n.nodeType === 1 && apply(n))
+    )).observe(document.body, { childList: true, subtree: true });
+  })();
+
+script.
+  (() => {
+    // KOR -> EN cho menu trong .header_layer.layer_tool
+    const MAP = new Map([
+      ['티스토리 홈', 'Tistory Home'],
+      ['포럼',        'Forum'],
+      ['로그인',      'Log in'],
+      ['로그아웃',    'Log out'],
+    ]);
+
+    const run = (root = document) => {
+      // Đổi chữ + set font-size 14px cho TẤT CẢ link trong menu
+      root.querySelectorAll('.header_layer.layer_tool .list_toolbar .link_list')
+        .forEach(a => {
+          const ko = (a.textContent || '').trim();
+          const en = MAP.get(ko);
+          if (en) {
+            a.textContent = en;
+            a.title = en;
+            a.setAttribute('aria-label', en);
+          }
+          // font 14px cho tất cả
+          a.style.fontSize = '14px';
+          a.style.lineHeight = '18px';
+          a.style.display = 'inline-block';
+        });
+
+      // (Tuỳ chọn) đổi tiêu đề ẩn cho screen reader
+      const h2 = root.querySelector('.header_layer.layer_tool h2.screen_out');
+      if (h2 && h2.textContent.trim() === '개인정보') {
+        h2.textContent = 'Profile';
+      }
+    };
+
+    // Chạy ban đầu
+    document.addEventListener('DOMContentLoaded', run);
+
+    // Layer xuất hiện/toggle động → quan sát DOM
+    new MutationObserver(muts => {
+      muts.forEach(m => {
+        if (m.type === 'attributes' &&
+            m.target.matches?.('.header_layer.layer_tool')) {
+          run(m.target);
+        }
+        m.addedNodes.forEach(n => {
+          if (n.nodeType === 1 &&
+             (n.matches?.('.header_layer.layer_tool') ||
+              n.querySelector?.('.header_layer.layer_tool'))) {
+            run(n);
+          }
+        });
+      });
+    }).observe(document.body, {
+      childList: true, subtree: true,
+      attributes: true, attributeFilter: ['style','class']
+    });
+
+    // Phòng hờ: mỗi lần click (mở menu) chạy lại
+    document.addEventListener('click', () => requestAnimationFrame(run), true);
+  })();
+
+script.
+  (() => {
+    const KOS = new Set(['익명']);      // các biến thể khác có thể thêm vào đây
+    const EN  = 'Anonymous';
+
+    function apply(root = document) {
+      root.querySelectorAll('.tt-link-user').forEach(a => {
+        const t = (a.textContent || '').trim();
+        if (KOS.has(t)) {
+          a.textContent = EN;
+          a.title = EN;
+          a.setAttribute('aria-label', EN);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', apply);
+    new MutationObserver(muts => muts.forEach(m =>
+      m.addedNodes.forEach(n => n.nodeType === 1 && apply(n))
+    )).observe(document.body, { childList: true, subtree: true });
+  })();
+
+script.
+  (() => {
+    const EN = 'This is a secret comment.';
+    const isKo = s => /^\s*비밀\s*댓글입니다[.!]?\s*$/i.test(String(s||''));
+
+    const apply = (root=document) => {
+      root.querySelectorAll('.tt-wrap-desc .tt_desc').forEach(p => {
+        const t = (p.textContent || '').trim();
+        if (isKo(t)) {
+          p.textContent = EN;
+          p.setAttribute('aria-label', EN);
+          p.style.fontSize = '12px';
+          p.style.lineHeight = '1.4';
+        }
+      });
+    };
+
+    document.addEventListener('DOMContentLoaded', apply);
+    new MutationObserver(m => m.forEach(x =>
+      x.addedNodes.forEach(n => n.nodeType === 1 && apply(n))
+    )).observe(document.body, { childList: true, subtree: true });
+  })();
+
+script. 
+  (() => {
+    // 1) Từ điển KOR -> EN (có thể thêm sau bằng window.ModifyMenuI18n.add)
+    const DICT = new Map(Object.entries({
+      '고정': 'Pin',
+      '수정': 'Edit',
+      '삭제': 'Delete',
+      '신고': 'Report',
+      '신고하기': 'Report',
+      '링크복사': 'Copy link',
+      '답글': 'Reply',
+      '공개로 변경': 'Make Public',
+      '비공개로 변경': 'Make Private'
+    }));
+
+    // 2) Helper: thay đúng TEXT NODE chứa tiếng Hàn, giữ nguyên icon/markup
+    const HANGUL_RE = /[ㄱ-ㅎ가-힣]/;
+    function replaceTextNodes(el, dict = DICT) {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+
+      for (const node of nodes) {
+        const raw = node.nodeValue;
+        if (!HANGUL_RE.test(raw)) continue;
+        const t = raw.trim();
+        const en = dict.get(t);
+        if (en) {
+          // giữ khoảng trắng 2 đầu nếu có
+          const leading = raw.match(/^\s*/)[0] || '';
+          const trailing = raw.match(/\s*$/)[0] || '';
+          node.nodeValue = leading + en + trailing;
+        }
+      }
+    }
+
+    // 3) Dịch 1 item (a/button) + các thuộc tính liên quan
+    function translateItem(el) {
+      replaceTextNodes(el);
+      const txt = (el.textContent || '').trim();
+      const en = DICT.get(txt);
+      if (en) {
+        el.title = en;
+        el.setAttribute('aria-label', en);
+        if (el.hasAttribute('data-tiara-copy')) {
+          el.setAttribute('data-tiara-copy', en);
+        }
+      }
+    }
+
+    // 4) Dịch toàn bộ UL menu
+    const processed = new WeakSet();
+    function translateMenu(ul) {
+      if (!ul || processed.has(ul)) return;
+      ul.querySelectorAll('a, button').forEach(translateItem);
+      processed.add(ul);
+    }
+
+    // 5) Tìm & dịch mọi menu hiện có
+    function scan(root = document) {
+      root.querySelectorAll('.tt-list-modify').forEach(translateMenu);
+    }
+
+    // 6) Quan sát DOM: khi menu bật lên hoặc render lại
+    const mo = new MutationObserver(muts => {
+      muts.forEach(m => {
+        if (m.type === 'childList') {
+          m.addedNodes.forEach(n => {
+            if (n.nodeType !== 1) return;
+            if (n.matches?.('.tt-list-modify')) translateMenu(n);
+            else scan(n);
+          });
+        }
+      });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    // 7) Khi bấm nút “…” của comment, delay 1 nhịp để menu kịp render rồi dịch
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.tt-button-modify, .btn_reply, .btn_more, .tt_img_area_reply');
+      if (btn) requestAnimationFrame(() => scan());
+    }, true);
+
+    // 8) API mở rộng cho bạn
+    window.ModifyMenuI18n = {
+      add(obj) { Object.entries(obj).forEach(([k, v]) => DICT.set(String(k).trim(), String(v))); scan(); },
+      scan
+    };
+
+    // 9) Chạy lần đầu
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', scan);
+    } else {
+      scan();
+    }
+  })();
+
+// Report Form
+script. 
+  (() => {
+    // KOR -> EN map cho tiêu đề, mục radio, nút…
+    const M = new Map([
+      ['신고하기', 'Report'],
+      ['신고사유', 'Reason'],
+
+      ['영리목적/홍보성',       'Commercial / Promotional'],
+      ['개인정보노출',         'Personal information exposure'],
+      ['욕설/인신공격',         'Profanity / Personal attack'],
+      ['음란/선정성',           'Obscene / Adult'],
+      ['불법정보',             'Illegal information'],
+      ['같은 내용 도배',        'Repeated content / Spam'],
+      ['기타',                 'Other'],
+      ['불법촬영물등 유통 신고', 'Report distribution of illegal filming material'],
+
+      ['취소', 'Cancel'],
+      ['신고', 'Report'],
+      ['권리침해 신고하기', 'Submit an infringement report'],
+    ]);
+
+    const txt = (el) => (el?.textContent || '').trim();
+    const setTxt = (el, v) => { if (el) el.textContent = v; };
+
+    function translateReportForm(form) {
+      if (!form || form.__translated) return;
+
+      // Tiêu đề & sub-title
+      const title = form.querySelector('.popTitle2');
+      if (title && M.has(txt(title))) setTxt(title, M.get(txt(title)));
+
+      const h3 = form.querySelector('.popContent h3.screen_out');
+      if (h3 && M.has(txt(h3))) setTxt(h3, M.get(txt(h3)));
+
+      // Các lựa chọn radio
+      form.querySelectorAll('label.lab_radio').forEach(label => {
+        const raw = txt(label);
+        const en  = M.get(raw);
+        if (en) {
+          // giữ <span class="ico_tistory"></span>
+          label.innerHTML = '<span class="ico_tistory"></span>' + en;
+        }
+      });
+
+      // Gợi ý/Footnote
+      const tip = form.querySelector('.tip');
+      if (tip) {
+        const link = tip.querySelector('a');
+        const href = link ? link.getAttribute('href') : null;
+        tip.innerHTML =
+          'For copyright or defamation claims, please submit additional documents via the report center.<br>' +
+          'If no documents are submitted, the report may not be processed.' +
+          (href ? ` <a href="${href}" rel="noreferrer" target="_blank"><span class="txt_g">${M.get('권리침해 신고하기')}</span></a>` : '');
+      }
+
+      // Nút footer
+      setTxt(form.querySelector('.pop_footer .btn_close'), 'Cancel');
+      setTxt(form.querySelector('.pop_footer .btn_ok'),    'Report');
+
+      // (tuỳ chọn) placeholder ô ghi chú
+      const ta = form.querySelector('#reasonMention');
+      if (ta && !ta.placeholder) ta.placeholder = 'Additional details (optional)';
+
+      form.__translated = true;
+    }
+
+    // Khi form đã có sẵn
+    const tryRun = (root=document) => {
+      const f = root.querySelector('#abuseReportForm');
+      if (f) translateReportForm(f);
+    };
+    document.addEventListener('DOMContentLoaded', () => tryRun());
+
+    // Quan sát để bắt trường hợp form được chèn sau khi click
+    new MutationObserver(muts => {
+      for (const m of muts) {
+        if (m.type === 'childList') {
+          m.addedNodes.forEach(n => {
+            if (n.nodeType !== 1) return;
+            if (n.id === 'abuseReportForm') translateReportForm(n);
+            else if (n.querySelector) {
+              const f = n.querySelector('#abuseReportForm');
+              if (f) translateReportForm(f);
+            }
+          });
+        }
+      }
+    }).observe(document.body, { childList: true, subtree: true });
+  })();
+
+style.
+  #abuseReportForm,
+  #abuseReportForm .popTitle2,
+  #abuseReportForm .lab_radio,
+  #abuseReportForm .tip { font-size: 14px !important; }
+
+// Like
+script. 
+  (() => {
+    // đổi chữ trong 1 nút Reaction
+    function fixOne(app) {
+      if (!app) return;
+      const icon = app.querySelector('.ico_postbtn.ico_like');     // "좋아요"
+      const txt  = app.querySelector('.txt_like.uoc-count');       // "공감"
+      if (icon) {
+        icon.textContent = 'Like';
+        icon.style.setProperty('font-size', '12px', 'important');
+      }
+      if (txt) {
+        txt.textContent = 'Like';
+        txt.style.setProperty('font-size', '12px', 'important');
+      }
+    }
+
+    // áp cho tất cả
+    function fixAll(root = document) {
+      root.querySelectorAll('[data-tistory-react-app="Reaction"]').forEach(fixOne);
+    }
+
+    // chạy nhiều nhịp đầu (vì widget mount trễ)
+    let tries = 0;
+    const timer = setInterval(() => {
+      fixAll();
+      if (++tries > 40 || document.querySelector('[data-tistory-react-app="Reaction"]')) {
+        clearInterval(timer);
+      }
+    }, 150);
+
+    // bắt mọi phần render thêm
+    new MutationObserver(muts => {
+      for (const m of muts) {
+        m.addedNodes && m.addedNodes.forEach(n => {
+          if (n.nodeType === 1) {
+            if (n.matches?.('[data-tistory-react-app="Reaction"]')) fixOne(n);
+            else fixAll(n);
+          }
+        });
+      }
+    }).observe(document.body, { childList: true, subtree: true });
+  })();

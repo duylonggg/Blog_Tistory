@@ -139,3 +139,211 @@
     @apply animate-none bg-h-100;
   }
 }
+
+@layer components {
+  /* ================================
+     Comment box placeholder -> English
+     (widget React của Tistory)
+     ================================ */
+  html [data-tistory-react-app="Comment"] .tt-area-write .tt-cmt:empty::before,
+  html [data-tistory-react-app="Comment"] .tt-comment-cont .tt-area-write .tt-cmt:empty::before,
+  html .tt-box-textarea .tt-area-write .tt-cmt:empty::before,
+  html [data-tistory-react-app="Comment"] .tt-cmt:empty::before {
+    content: "Write a comment..." !important;
+  }
+}
+
+@layer components {
+  /* ----- i18n cho Menubar (CSS-only) ----- */
+  #menubar_wrapper, [data-tistory-react-app="Menubar"] { --en-sm: .875rem; --en-h: 1rem; }
+
+  /* "관리 티스토리" -> Tistory Admin (nút icon trên thanh menu) */
+  #menubar_wrapper .ico_tistory_sign,
+  [data-tistory-react-app="Menubar"] .ico_tistory_sign { font-size:0 !important; }
+  #menubar_wrapper .ico_tistory_sign::after,
+  [data-tistory-react-app="Menubar"] .ico_tistory_sign::after { content:"Tistory Admin"; font-size:var(--en-sm); }
+
+  /* "계정관리" -> Account settings */
+  #menubar_wrapper .link_setting_type2,
+  [data-tistory-react-app="Menubar"] .link_setting_type2 { font-size: 0 !important; }
+
+  #menubar_wrapper .link_setting_type2::after,
+  [data-tistory-react-app="Menubar"] .link_setting_type2::after {
+    content: "Account settings";
+    font-size: 12px !important;
+  }
+
+  /* "운영중인 블로그" -> My Blogs (tiêu đề danh sách blog) */
+  #menubar_wrapper .tit_list_type,
+  [data-tistory-react-app="Menubar"] .tit_list_type { font-size:0 !important; }
+  #menubar_wrapper .tit_list_type::after,
+  [data-tistory-react-app="Menubar"] .tit_list_type::after { content:"My Blogs"; font-size:var(--en-h); font-weight:600; }
+
+  /* "쓰기/글쓰기" -> Write */
+  #menubar_wrapper .link_edit,
+  [data-tistory-react-app="Menubar"] .link_edit { font-size:0 !important; }
+  #menubar_wrapper .link_edit::after,
+  [data-tistory-react-app="Menubar"] .link_edit::after { content:"Write"; font-size:var(--en-sm); }
+
+  /* "블로그 관리" -> Blog Admin */
+  #menubar_wrapper .link_setting,
+  [data-tistory-react-app="Menubar"] .link_setting { font-size:0 !important; }
+  #menubar_wrapper .link_setting::after,
+  [data-tistory-react-app="Menubar"] .link_setting::after { content:"Blog Admin"; font-size:var(--en-sm); }
+
+  /* HOME: dùng ::before thay vì ::after và khớp cả có/không dấu / */
+  #menubar_wrapper .wrap_toolbar .link_list[href^="https://www.tistory.com"] {
+    font-size: 0 !important;
+    position: relative;            /* để ::before hiển thị ổn định */
+    line-height: 1.2;              /* tránh bị nén chiều cao */
+  }
+  #menubar_wrapper .wrap_toolbar .link_list[href^="https://www.tistory.com"]::before {
+    content: "Tistory Home";
+    font-size: .875rem;            /* ~ text-sm */
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* FEED: cũng chuyển sang ::before để đồng bộ */
+  #menubar_wrapper .wrap_toolbar .link_list[href*="/feed"] {
+    font-size: 0 !important;
+    position: relative;
+  }
+  #menubar_wrapper .wrap_toolbar .link_list[href*="/feed"]::before {
+    content: "Feed";
+    font-size: .875rem;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* LOG OUT: nếu href="#" hoặc item cuối, dùng ::before */
+  #menubar_wrapper .wrap_toolbar .link_list[href="#"],
+  #menubar_wrapper .wrap_toolbar ul li:last-child .link_list {
+    font-size: 0 !important;
+    position: relative;
+  }
+  #menubar_wrapper .wrap_toolbar .link_list[href="#"]::before,
+  #menubar_wrapper .wrap_toolbar ul li:last-child .link_list::before {
+    content: "Log out";
+    font-size: .875rem;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+@layer components {
+  /* "답글" -> Reply (CSS-only) */
+  [data-tistory-react-app="Comment"] a.tt-link-comment .tt_txt_g,
+  [data-tistory-react-app="Comment"] a.tt-link-comment .tt_txt,
+  a.tt-link-comment .tt_txt_g,
+  a.tt-link-comment .tt_txt {
+    display: none !important;           /* ẩn chữ Hàn trong span */
+  }
+
+  [data-tistory-react-app="Comment"] a.tt-link-comment::after,
+  a.tt-link-comment::after {
+    content: "Reply";
+    font-size: 12px;                    /* đúng cỡ bạn muốn */
+  }
+
+  /* Trường hợp một số skin không có span.tt_txt bên trong */
+  [data-tistory-react-app="Comment"] .tt-link-comment,
+  .tt-link-comment {
+    /* KHÔNG đụng nếu đã có span.tt_txt */
+  }
+  [data-tistory-react-app="Comment"] .tt-link-comment:not(:has(.tt_txt)) {
+    font-size: 0 !important;
+  }
+  [data-tistory-react-app="Comment"] .tt-link-comment:not(:has(.tt_txt))::after {
+    content: "Reply";
+    font-size: 12px;
+  }
+}
+
+@layer components {
+  /* Share layer -> English */
+  #tistorySnsLayer .btn_mark .txt_sns { font-size: 0 !important; }
+
+  #tistorySnsLayer .btn_mark[data-service="url"] .txt_sns::after {
+    content: "Copy URL"; font-size: 12px;
+  }
+  #tistorySnsLayer .btn_mark[data-service="kakaotalk"] .txt_sns::after {
+    content: "Share to KakaoTalk"; font-size: 12px;
+  }
+  #tistorySnsLayer .btn_mark[data-service="facebook"] .txt_sns::after {
+    content: "Share to Facebook"; font-size: 12px;
+  }
+  /* Tistory để data-service="twitter" và đồng thời có data-tiara-layer="X" */
+  #tistorySnsLayer .btn_mark[data-service="twitter"] .txt_sns::after,
+  #tistorySnsLayer .btn_mark[data-tiara-layer="X"] .txt_sns::after {
+    content: "Share to X"; font-size: 12px;
+  }
+}
+
+@layer components {
+  /* ===== Post etc layer -> English ===== */
+  #tistoryEtcLayer .btn_mark { font-size: 0 !important; }
+
+  /* 수정 -> Edit */
+  #tistoryEtcLayer .btn_mark[role="modify"]::after,
+  #tistoryEtcLayer .btn_mark[data-tiara-copy="수정"]::after {
+    content: "Edit";
+    font-size: 12px;
+  }
+
+  /* 비공개로 변경 -> Make Private */
+  #tistoryEtcLayer .btn_mark[role="private"]::after,
+  #tistoryEtcLayer .btn_mark[data-tiara-copy="비공개로 변경"]::after {
+    content: "Make Private";
+    font-size: 12px;
+  }
+
+  /* (trường hợp ngược lại nếu có) 공개로 변경 -> Make Public */
+  #tistoryEtcLayer .btn_mark[data-tiara-copy="공개로 변경"]::after {
+    content: "Make Public";
+    font-size: 12px;
+  }
+
+  /* 삭제 -> Delete */
+  #tistoryEtcLayer .btn_mark[role="delete"]::after,
+  #tistoryEtcLayer .btn_mark[data-tiara-copy="삭제"]::after {
+    content: "Delete";
+    font-size: 12px;
+  }
+
+  /* '비밀댓글' -> 'Secret comment' */
+  .tt-box-meta .tt_img_area_reply.tt_ico_lock {
+    font-size: 0 !important;      /* ẩn chữ Hàn gốc */
+    display: inline-flex;               /* cho phép canh giữa theo trục dọc */
+    align-items: baseline;              /* hoặc align-items:center;  */
+    margin-left: .5rem;                 /* khoảng cách với tên */
+  }
+  .tt-box-meta .tt_img_area_reply.tt_ico_lock::after {
+    content: "Secret comment";
+    font-size: 12px;               /* chỉnh cỡ nếu muốn */
+    line-height: inherit;               /* dùng cùng line-height với dòng */
+    margin-top: 5px;
+  }
+}
+
+@layer components {
+  /* "게시글 관리" -> Post options  */
+  .wrap_btn_etc .btn_etc2 .ico_postbtn.ico_etc {
+    font-size: 0 !important; /* ẩn chữ Hàn gốc */
+  }
+  .wrap_btn_etc .btn_etc2 .ico_postbtn.ico_etc::after {
+    content: "Post options";
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  /* "신고하기" -> Report (trong layer) */
+  #tistoryEtcLayer .btn_mark[role="report"] {
+    font-size: 0 !important;
+  }
+  #tistoryEtcLayer .btn_mark[role="report"]::after {
+    content: "Report";
+    font-size: 12px;
+    line-height: 1;
+  }
+}

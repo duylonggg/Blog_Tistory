@@ -1,33 +1,33 @@
 # hELLO
 
-[hELLO](https://pronist.tistory.com/5)는 [티도리 프레임워크](https://github.com/pronist/tidory/wiki)로 작성된 티스토리 스킨입니다. 따라서 별도의 개발 방식이 요구됩니다. 먼저, 프로젝트를 복사합니다.
+[hELLO](https://pronist.tistory.com/5)는 [Tidori Framework](https://github.com/pronist/tidory/wiki) This is a Tistory skin written in . Therefore, a separate development method is required. First, copy the project.
 
 ```bash
 git clone https://github.com/pronist/hello
 ```
 
-프로젝트 폴더로 이동하여 `node_modules` 를 설치해줄 필요가 있습니다. 티도리 프레임워크는 **Node.js, Webpack** 을 기반으로 합니다. 따라서 **NPM(Node Package Manager)** 이 요구됩니다.
+Go to the project folder `node_modules` You will need to install it. The Tidori framework is based on **Node.js, Webpack**. Therefore, **NPM (Node Package Manager)** is required.
 
 ```bash
 cd hello && npm install
 ```
 
-티스토리 치환자가 적용된 모습을 보려면 **프리뷰 서버** 를 사용할 필요가 있는데, **tidory.config.example.js** 의 이름을 **tidory.config.js** 로 변경하고, 티도리 프레임워크의 [환경설정](https://github.com/pronist/tidory/wiki/Configuration)를 참고하여 `ts_session`, `url` 를 설정해줄 필요가 있습니다. 이는 직접 티스토리 서버와 소통하여 치환자가 해석된 상태의 스킨을 먼저보기 위한 값입니다.
+To see the skin with the Tistory placeholders applied, you need to use the **preview server**. Rename **tidory.config.example.js** to **tidory.config.js** and configure `ts_session` and `url` according to the Tidory framework's [environment settings](https://github.com/pronist/tidory/wiki/Configuration). These values ​​are used to directly communicate with the Tistory server and preview the skin with the placeholders interpreted.
 
-설정이 완료되었다면 프리뷰 서버를 실행할 수 있습니다.
+Once the configuration is complete, you can run the preview server.
 
 ```bash
 npm run preview
 ```
 
-## 배포
+## Distribution
 
-**tidory.config.js** 에 `ts_session`, `url` 이 설정되었다면 배포를 진행할 수 있습니다. 티도리 프레임워크의 [빌드 및 배포](https://github.com/pronist/tidory/wiki/Deployment)를 참고하십시오.
+If `ts_session` and `url` are set in **tidory.config.js**, you can proceed with deployment. Please refer to [Build and Deployment](https://github.com/pronist/tidory/wiki/Deployment) of the Tidory framework.
 
 ```bash
 npm run production && npm run deploy
 ```
 
-## 저작권
+## Copyright
 
 Copyright 2020-2025. [SangWoo Jeong](https://github.com/pronist). All rights reserved.

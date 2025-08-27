@@ -1,11 +1,28 @@
 li#blog-menu.el
-  h2.tit 블로그 메뉴
-  | [##_blog_menu_##]
-
+  h2.tit Blog Menu
+  ul.menu
+    li
+      a(href='/') Home
+    li
+      a(href='/category/tag') Tag
+    li
+      a(href='/category/guestbook') GuestBook
 style
   :postcss
     #blog-menu {
-      ul {
-        @apply flex flex-col gap-y-4 text-sm;
+      @apply p-4 bg-h-200 dark:bg-h-700 rounded-md;
+      
+      h2.tit {
+        @apply text-lg font-bold mb-3 text-h-800 dark:text-h-200;
+      }
+
+      ul.menu {
+        @apply flex flex-col gap-y-2 text-sm;
+
+        li {
+          a {
+            @apply text-h-500 dark:text-h-200 hover:text-h-800 dark:hover:text-h-200;
+          }
+        }
       }
     }
