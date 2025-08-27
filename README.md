@@ -1,6 +1,6 @@
 # hELLO
 
-[hELLO](https://pronist.tistory.com/5)는 [Tidori Framework](https://github.com/pronist/tidory/wiki) This is a Tistory skin written in . Therefore, a separate development method is required. First, copy the project.
+[hELLO](https://pronist.tistory.com/5) is [Tidori Framework](https://github.com/pronist/tidory/wiki) This is a Tistory skin written in . Therefore, a separate development method is required. First, copy the project.
 
 ```bash
 git clone https://github.com/pronist/hello
