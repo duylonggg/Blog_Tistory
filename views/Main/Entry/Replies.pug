@@ -665,3 +665,39 @@ style.
     font-size: 12px !important; line-height: 1.2;
   }
 
+script.
+  (() => {
+    const SEL = '.btn_subscription';
+    const ACTIVE = 'is-subscribed';
+    const isOn = (btn) => {
+      const s1 = btn.getAttribute('data-tiara-copy') || '';
+      const s2 = btn.querySelector('.txt_state')?.textContent || '';
+      return /구독중|Subscribed/i.test(s1 + ' ' + s2);
+    };
+    const paint = (btn) => btn.classList.toggle(ACTIVE, isOn(btn));
+    const scan = (root=document) => root.querySelectorAll(SEL).forEach(paint);
+
+    // chạy lúc đầu & khi DOM/attr thay đổi
+    scan();
+    new MutationObserver(() => scan()).observe(document.body, {
+      subtree:true, childList:true, attributes:true,
+      attributeFilter:['data-tiara-copy','class','aria-pressed','style']
+    });
+  })();
+
+style.
+  .btn_subscription{ transition:background-color .18s ease,color .18s ease; }
+  .btn_subscription.is-subscribed{ background:#FFF3C4 !important; border-color:#FDE68A !important; }
+  .btn_subscription.is-subscribed .fa-star{ color:#FACC15 !important; }
+  .btn_menu_toolbar.btn_subscription.is-subscribed .ico_check_type1{
+    filter: sepia(1) saturate(6) hue-rotate(330deg) brightness(1.05);
+  }
+  /* Small subscribe star (the one dưới bài) – active look */
+  .subscribe.btn_subscription.is-subscribed{
+    background: #FFF3C4 !important;   /* pastel yellow */
+    border-color: #FDE68A !important;
+  }
+  .subscribe.btn_subscription.is-subscribed .fa-star{
+    color: #FACC15 !important;         /* yellow star */
+  }
+
