@@ -3,7 +3,7 @@ s_list
     x-data='{ listStyle: "[##_list_style_##]" }'
     x-init=`(function () {
       var t = "[##_tag_##]".trim();
-      $store.header.title = t ? ("Posts tagged '" + t + "'") : "All Posts";
+      $store.header.title = t ? ("Posts tagged '" + t + "'") : "All Tagged Posts";
     })()`
     :data-list-style='listStyle')
     s_list_rep
