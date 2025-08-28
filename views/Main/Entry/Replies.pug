@@ -807,3 +807,51 @@ style.
             invert(77%) sepia(88%) saturate(600%)
             hue-rotate(-10deg) contrast(100%);
   }
+
+script.
+  (() => {
+    // 2 thông báo của nút Subscribe
+    const RULES = [
+      [/^\s*이\s*블로그를\s*구독합니다\.\s*$/,  'You’ve subscribed to this blog.'],
+      [/^\s*구독이\s*취소되었습니다\.\s*$/,      'You’ve unsubscribed from this blog.'],
+    ];
+
+    const translateText = (txt) => {
+      txt = String(txt || '').trim();
+      for (const [re, en] of RULES) if (re.test(txt)) return en;
+      return null;
+    };
+
+    // Đổi nội dung trong .layer_tooltip .desc_g
+    const translateTooltip = (node) => {
+      const p = node.querySelector?.('.desc_g') ||
+                (node.classList?.contains('desc_g') && node);
+      if (!p) return;
+      const en = translateText(p.textContent);
+      if (en) p.textContent = en;
+    };
+
+    const scan = (root=document) => {
+      root.querySelectorAll('.layer_tooltip').forEach(translateTooltip);
+    };
+
+    // Chạy ngay khi DOM sẵn sàng
+    document.addEventListener('DOMContentLoaded', scan);
+
+    // Dịch ngay khi tooltip được thêm hoặc bật/tắt (style/class thay đổi)
+    new MutationObserver((muts) => {
+      for (const m of muts) {
+        if (m.type === 'attributes' && m.target.classList?.contains('layer_tooltip')) {
+          translateTooltip(m.target);
+        }
+        m.addedNodes.forEach(n => {
+          if (n.nodeType !== 1) return;
+          if (n.matches?.('.layer_tooltip')) translateTooltip(n);
+          else n.querySelectorAll?.('.layer_tooltip').forEach(translateTooltip);
+        });
+      }
+    }).observe(document.body, {
+      childList: true, subtree: true,
+      attributes: true, attributeFilter: ['style','class']
+    });
+  })();
