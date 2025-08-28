@@ -347,3 +347,41 @@
     line-height: 1;
   }
 }
+
+@layer components {
+  /* Smooth hover/active */
+  [data-tistory-react-app="Reaction"] .btn_post {
+    transition: background-color .2s ease, color .2s ease;
+  }
+
+  /* Liked state (CSS-only via :has) */
+  [data-tistory-react-app="Reaction"] .btn_post:has(.like_on),
+  [data-tistory-react-app="Reaction"] .btn_post[aria-pressed="true"],
+  [data-tistory-react-app="Reaction"].on .btn_post {
+    background-color: #ffe5e5 !important;   /* pastel red */
+    border-color: #ffc9c9 !important;
+  }
+  [data-tistory-react-app="Reaction"] .btn_post:has(.like_on) .ico_postbtn.ico_like,
+  [data-tistory-react-app="Reaction"] .btn_post:has(.like_on) .txt_like,
+  [data-tistory-react-app="Reaction"] .btn_post[aria-pressed="true"] .ico_postbtn.ico_like,
+  [data-tistory-react-app="Reaction"] .btn_post[aria-pressed="true"] .txt_like,
+  [data-tistory-react-app="Reaction"].on .btn_post .ico_postbtn.ico_like,
+  [data-tistory-react-app="Reaction"].on .btn_post .txt_like {
+    color: #e11d48 !important;              /* red */
+    fill: #e11d48 !important;
+  }
+}
+
+@layer components {
+  /* Menubar profile: clamp email width to 135px with ellipsis */
+  #menubar_wrapper .info_profile .txt_email,
+  [data-tistory-react-app="Menubar"] .info_profile .txt_email {
+    width: 135px !important;
+    max-width: 135px !important;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+  }
+}
