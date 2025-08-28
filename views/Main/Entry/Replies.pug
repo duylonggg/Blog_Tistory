@@ -701,3 +701,109 @@ style.
     color: #FACC15 !important;         /* yellow star */
   }
 
+  /* hiệu ứng mượt */
+  .btn_subscription .ico_check_type1 { transition: filter .2s ease; }
+
+  /* khi đã theo dõi → tô vàng ngôi sao */
+  .btn_subscription.is-subscribed .ico_check_type1,
+  .btn_subscription.following .ico_check_type1,
+  .btn_subscription[aria-pressed="true"] .ico_check_type1 {
+    /* tint sang vàng (không đụng vào sprite gốc) */
+    filter: brightness(0) saturate(100%)
+            invert(77%) sepia(88%) saturate(600%)
+            hue-rotate(-10deg) contrast(100%);
+  }
+
+// Subscribe: detect & paint star yellow
+script.
+  (() => {
+    const SEL = '.btn_subscription';
+    const ACTIVE = 'is-subscribed';
+    const ON_TEXT = /구독중|Subscribed/i;
+
+    const isOn = (btn) => {
+      if (!btn) return false;
+      // 1) explicit state by class/aria
+      if (btn.classList.contains('is-subscribed') || btn.classList.contains('following')) return true;
+      if (btn.getAttribute('aria-pressed') === 'true') return true;
+      // 2) strings in attributes / label
+      const s1 = btn.getAttribute('data-tiara-copy') || '';
+      const s2 = btn.querySelector('.txt_state')?.textContent || '';
+      return ON_TEXT.test(s1 + ' ' + s2);
+    };
+
+    const paint = (btn) => {
+      if (!btn) return;
+      btn.classList.toggle(ACTIVE, isOn(btn));
+    };
+
+    const wire = (btn) => {
+      if (!btn || btn.__wired) return;
+      btn.__wired = true;
+
+      // initial
+      paint(btn);
+
+      // click → let Tistory/React flip state, then repaint
+      btn.addEventListener('click', () => {
+        requestAnimationFrame(() => paint(btn));
+        setTimeout(() => paint(btn), 80);
+        setTimeout(() => paint(btn), 250);
+      }, true);
+
+      // watch attribute changes
+      new MutationObserver(() => paint(btn)).observe(btn, {
+        attributes: true,
+        attributeFilter: ['class', 'aria-pressed', 'data-tiara-copy']
+      });
+
+      // watch text changes inside .txt_state
+      const state = btn.querySelector('.txt_state');
+      if (state) {
+        new MutationObserver(() => paint(btn)).observe(state, {
+          characterData: true,
+          childList: true,
+          subtree: true
+        });
+      }
+    };
+
+    const scan = (root = document) =>
+      root.querySelectorAll(SEL).forEach(wire);
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', scan);
+    } else {
+      scan();
+    }
+
+    // dynamic renders
+    new MutationObserver(muts => {
+      muts.forEach(m =>
+        m.addedNodes.forEach(n => {
+          if (n.nodeType !== 1) return;
+          if (n.matches?.(SEL)) wire(n); else scan(n);
+        })
+      );
+    }).observe(document.body, { childList: true, subtree: true });
+  })();
+
+style.
+  /* mượt mà */
+  .btn_subscription .ico_check_type1 { transition: filter .2s ease; }
+
+  /* nền nhẹ khi subscribed (tùy chọn) */
+  .btn_subscription.is-subscribed {
+    background: #FFF3C4 !important;
+    border-color: #FDE68A !important;
+  }
+
+  /* ⭐ ngôi sao vàng khi subscribed */
+  .btn_menu_toolbar.btn_subscription.is-subscribed .ico_check_type1,
+  .btn_subscription.is-subscribed .ico_check_type1,
+  .btn_subscription[aria-pressed="true"] .ico_check_type1 {
+    /* tint vàng lên sprite mặc định */
+    filter: brightness(0) saturate(100%)
+            invert(77%) sepia(88%) saturate(600%)
+            hue-rotate(-10deg) contrast(100%);
+  }
