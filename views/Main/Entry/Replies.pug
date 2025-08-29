@@ -855,3 +855,74 @@ script.
       attributes: true, attributeFilter: ['style','class']
     });
   })();
+
+// === SUBSCRIBE: force star turns yellow when subscribed ===
+script.
+  (() => {
+    const SEL = 'button.btn_menu_toolbar.btn_subscription';
+    const ON_TXT = /구독중|Subscribed/i;
+
+    const isOn = (btn) =>
+      btn.classList.contains('is-subscribed') ||
+      btn.classList.contains('following') ||
+      btn.getAttribute('aria-pressed') === 'true' ||
+      ON_TXT.test((btn.getAttribute('data-tiara-copy') || '') + ' ' + (btn.querySelector('.txt_state')?.textContent || ''));
+
+    const sync = (btn) => btn.classList.toggle('is-subscribed', isOn(btn));
+
+    const wire = (btn) => {
+      if (!btn || btn.__wired) return; btn.__wired = true;
+      sync(btn);
+
+      // Sau click, đợi React/Tistory cập nhật rồi repaint
+      btn.addEventListener('click', () => {
+        requestAnimationFrame(() => sync(btn));
+        setTimeout(() => sync(btn), 100);
+        setTimeout(() => sync(btn), 240);
+      }, true);
+
+      // Theo dõi thay đổi trạng thái
+      new MutationObserver(() => sync(btn)).observe(btn, {
+        attributes: true,
+        attributeFilter: ['class','aria-pressed','data-tiara-copy']
+      });
+      const state = btn.querySelector('.txt_state');
+      if (state) new MutationObserver(() => sync(btn)).observe(state, {
+        childList: true, characterData: true, subtree: true
+      });
+    };
+
+    const scan = (root=document) => root.querySelectorAll(SEL).forEach(wire);
+    document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', scan) : scan();
+    new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => {
+      if (n.nodeType !== 1) return;
+      if (n.matches?.(SEL)) wire(n); else scan(n);
+    }))).observe(document.body, { childList: true, subtree: true });
+  })();
+
+style.
+  /* mượt khi đổi */
+  button.btn_menu_toolbar.btn_subscription .img_common_tistory.ico_check_type1,
+  button.btn_menu_toolbar.btn_subscription::before {
+    transition: filter .2s ease;
+  }
+
+  /* ⭐ NGÔI SAO VÀNG KHI ĐÃ SUBSCRIBE
+     - Bao trùm cả span .ico_check_type1 và cả pseudo ::before (như bạn thấy trong devtools) */
+  button.btn_menu_toolbar.btn_subscription.is-subscribed .img_common_tistory.ico_check_type1,
+  button.btn_menu_toolbar.btn_subscription.following     .img_common_tistory.ico_check_type1,
+  button.btn_menu_toolbar.btn_subscription[aria-pressed="true"] .img_common_tistory.ico_check_type1,
+  button.btn_menu_toolbar.btn_subscription.is-subscribed::before,
+  button.btn_menu_toolbar.btn_subscription.following::before,
+  button.btn_menu_toolbar.btn_subscription[aria-pressed="true"]::before {
+    /* nhuộm vàng sprite mặc định */
+    filter: brightness(0) saturate(100%)
+            invert(77%) sepia(88%) saturate(600%)
+            hue-rotate(-10deg) contrast(100%) !important;
+  }
+
+  /* (tuỳ chọn) nền/viền vàng nhạt khi đã sub */
+  button.btn_menu_toolbar.btn_subscription.is-subscribed {
+    background: #FFF3C4 !important;
+    border-color: #FDE68A !important;
+  }
