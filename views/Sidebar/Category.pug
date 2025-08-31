@@ -76,6 +76,21 @@ script.
     }
   })))
 
+style.
+  /* CSS-only: thay tiêu đề top-bar của trang Category-All thành "All Posts" */
+  /* (Giới hạn theo trang category để tránh ảnh hưởng nơi khác.
+     Trên Tistory body thường có id bắt đầu bằng tt-body-category khi ở trang category.) */
+  body[id^="tt-body-category"] #top .tit .txt {
+    font-size: 0 !important;          /* ẩn chữ Hàn gốc */
+  }
+  body[id^="tt-body-category"] #top .tit .txt::before {
+    content: "List of Posts in Category";              /* chèn tiếng Anh */
+    font-size: 0.875rem;               /* ~ text-sm */
+    line-height: 1.2;
+    display: inline-block;
+    vertical-align: top;
+  }
+
 style
   :postcss
     #category {
