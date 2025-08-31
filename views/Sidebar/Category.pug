@@ -1,7 +1,5 @@
 li#category.el(x-data='category')
-  ul.menu
-    li
-      a(href='/') Home
+  | [##_category_list_##]
 
 script.
   document.addEventListener('alpine:init', () => Alpine.data('category', () => ({
@@ -16,6 +14,24 @@ script.
     init () {
       if (this.foldableCategory) {
         this.$subCategories.forEach(this.foldable.bind(this))
+      }
+
+      const tit = this.$el.querySelector('.link_tit');
+      if (tit) tit.innerHTML = tit.innerHTML.replace('분류 전체보기', 'Category');
+
+      // 🔽 Replace Korean category title → English
+      const $title = this.$el.querySelector('.tit .txt')
+      if ($title && $title.textContent) {
+        const raw = $title.textContent.trim()
+        // match: '<name>' 카테고리의 글 목록
+        const m = raw.match(/^'(.+?)'\\s*카테고리의\\s*글\\s*목록$/)
+        if (m) {
+          const name = m[1]
+          $title.textContent = `Posts in "${name}"`
+        } else if (raw.includes('분류 전체보기')) {
+          // fallback nếu không khớp regex nhưng có từ khóa
+          $title.textContent = 'Posts in "Category"'
+        }
       }
     },
 

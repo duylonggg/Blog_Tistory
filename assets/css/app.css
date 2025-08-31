@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 1279px) {
+  :root{}
+}
+
 @layer base {
   a,
   button {
