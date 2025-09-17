@@ -1,9 +1,9 @@
 {
   "name": "hello",
   "author": {
-    "name": "Sangwoo Jeong",
-    "email": "pronist@naver.com",
-    "url": "https://github.com/pronist"
+    "name": "Hà Duy Long",
+    "email": "haduylong@gmail.com",
+    "url": "https://github.com/duylonggg"
   },
   "private": true,
   "workspaces": [
