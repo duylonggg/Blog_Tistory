@@ -9,6 +9,60 @@ li#search.el
         autocomplete='off'
         name='[##_search_name_##]'
         value='[##_search_text_##]'
+        placeholder='Search'
         onkeypress='if (event.keyCode == 13) { [##_search_onclick_submit_##] }'
         class='w-full text-sm text-overflow-hidden border-none outline-none bg-h-300 dark:bg-h-600')
-      i.ico(class='fa-circle-arrow-right')
+      i.ico(class='fa-circle-arrow-right' onclick='[##_search_onclick_submit_##]')
+
+script.
+  (function () {
+    // Lấy keyword từ URL: ưu tiên ?keyword, ?search, ?q, ?query; fallback /search/<term>; cuối cùng lấy từ #keyword
+    function getQuery() {
+      try {
+        var sp = new URLSearchParams(location.search);
+        var keys = ['keyword', 'search', 'q', 'query'];
+        for (var i = 0; i < keys.length; i++) {
+          var v = sp.get(keys[i]);
+          if (v) return v.trim();
+        }
+      } catch (e) {}
+      var m = (location.pathname || '').match(/\/search\/([^\/?#]+)/i);
+      if (m) {
+        try { return decodeURIComponent(m[1].replace(/\+/g, ' ')).trim(); }
+        catch (e) { return m[1].replace(/\+/g, ' ').trim(); }
+      }
+      var ip = document.getElementById('keyword');
+      if (ip && ip.value) return ip.value.trim();
+      return '';
+    }
+
+    function updateHeader() {
+      var q = getQuery();
+      if (!q) return false;
+
+      // Tìm đúng node tiêu đề có chữ "검색결과" rồi ghi đè
+      var nodes = Array.prototype.slice.call(document.querySelectorAll('.tit .txt'))
+        .filter(function (n) { return /검색결과/.test(n.textContent || ''); });
+
+      if (!nodes.length) return false;
+
+      var text = "Search results for '" + q + "'";
+      nodes.forEach(function (n) { n.textContent = text; });
+      return true;
+    }
+
+    // Chạy khi sẵn sàng; nếu chưa thấy node (do SPA/Alpine), dùng MutationObserver để bắt khi nó xuất hiện
+    function run() {
+      if (updateHeader()) return;
+      var mo = new MutationObserver(function () {
+        if (updateHeader()) mo.disconnect();
+      });
+      mo.observe(document.documentElement, { childList: true, subtree: true });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run);
+    } else {
+      run();
+    }
+  })();
