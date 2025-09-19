@@ -106,6 +106,9 @@ script.
         /불법촬영물등\s*유통\s*신고[\s\S]*?계속\s*진행하시겠습니까\?\s*음란,\s*청소년\s*유해\s*사유로\s*선택하여\s*신고하시면\s*신고서\s*제출\s*없이\s*더\s*빠르게\s*조치됩니다\.?/,
         'Reporting the distribution of illegal filming materials requires consent to collect and use personal information and submission of a report form. Continue? For “Obscene” or “Harmful to minors”, select that reason to proceed without submitting the form for faster processing.'
       ],
+
+      // Delete guestbook entry
+      [/^\s*방명록을\s*삭제하시겠습니까\?\s*$/, 'Delete this guestbook entry?'],
     ];
 
     const t = s => {
