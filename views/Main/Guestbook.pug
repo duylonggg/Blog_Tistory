@@ -1,48 +1,5 @@
 s_guest
   section#guestbook(
-    x-data='guestbook'
-    x-init='$store.header.title = "Guestbook"'
-    class='permalink-container flex flex-col gap-y-4')
-    
-    // Chat messages
-    div#messages(class='flex flex-col gap-y-2 overflow-y-auto max-h-[60vh] p-2 bg-h-200 dark:bg-h-700 rounded-md')
-      template(x-for='msg in messages' :key='msg.id')
-        div.flex.items-start.gap-x-2
-          img(:src='msg.avatar' class='w-8 h-8 rounded-full object-cover')
-          div.flex.flex-col
-            span.font-bold.text-sm(x-text='msg.name')
-            span.text-sm(x-text='msg.text')
-
-    // Input box
-    form(x-on:submit.prevent='sendMessage' class='flex gap-x-2 mt-2')
-      input(type='text' placeholder='Your name' x-model='newName' class='flex-1 p-2 rounded bg-h-100 dark:bg-h-800 text-h-800 dark:text-h-200')
-      input(type='text' placeholder='Your message' x-model='newText' class='flex-2 p-2 rounded bg-h-100 dark:bg-h-800 text-h-800 dark:text-h-200')
-      button(type='submit' class='px-4 py-2 bg-h-300 dark:bg-h-600 text-white rounded') Send
-
-script.
-  document.addEventListener('alpine:init', () => {
-    Alpine.data('guestbook', () => ({
-      messages: [
-        // Ví dụ mặc định
-        { id: 1, name: 'Admin', text: 'Welcome to the Guestbook!', avatar: '/path/to/avatar.png' }
-      ],
-      newName: '',
-      newText: '',
-      sendMessage() {
-        if(this.newName && this.newText) {
-          this.messages.push({
-            id: Date.now(),
-            name: this.newName,
-            text: this.newText,
-            avatar: '/path/to/default-avatar.png'
-          })
-          this.newName = ''
-          this.newText = ''
-          this.$nextTick(() => {
-            const container = document.getElementById('messages')
-            container.scrollTop = container.scrollHeight
-          })
-        }
-      }
-    }))
-  })
+    x-init='$store.header.title = "GuestBook"'
+    class='permalink-container')
+    +group('guestbook')

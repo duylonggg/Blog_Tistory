@@ -1,17 +1,17 @@
-li#blog-menu.el
+li#blog-menu.el 
   h2.tit Blog Menu
   ul.menu
     li
       a(href='/') Home
     li
-      a(href='/category/tag') Tag
+      a(href='/tag') Tag
     li
-      a(href='/category/guestbook') GuestBook
+      a(href='/guestbook') GuestBook
 style
   :postcss
     #blog-menu {
       @apply p-4 bg-h-200 dark:bg-h-700 rounded-md;
-      
+
       h2.tit {
         @apply text-lg font-bold mb-3 text-h-800 dark:text-h-200;
       }
@@ -21,7 +21,12 @@ style
 
         li {
           a {
-            @apply text-h-500 dark:text-h-200 hover:text-h-800 dark:hover:text-h-200;
+            /* Màu xám yêu cầu */
+            --tw-text-opacity: 1;
+            color: rgb(153 153 161 / var(--tw-text-opacity));
+
+            /* Giữ hover như cũ (tuỳ bạn) */
+            @apply hover:text-h-800 dark:hover:text-h-200;
           }
         }
       }
