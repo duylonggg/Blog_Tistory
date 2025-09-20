@@ -1,9 +1,39 @@
-section#notice.permalink-container
-  // Cờ dành riêng cho Notice: header sẽ đọc 2 data-* này
-  span#notice-flag.hidden(data-title='Hello', data-subtitle='Pursuing a major in Information Security at PTIT')
-
-  s_notice_rep
+s_notice_rep
     s_index_article_rep
       +index('notice_rep', false)
     s_permalink_article_rep
       +permalink('notice', false)
+
+style
+  :postcss
+    .tt_article_useless_p_margin [style*="color"] {
+      color: inherit !important; /* bỏ hiệu lực inline color */
+    }
+
+script.
+  (() => {
+    const apply = () => {
+      const el = document.querySelector('#guestbook #comment');
+      if (!el) return false;
+      el.placeholder = 'Only logged-in users can leave a guestbook entry.';
+      return true;
+    };
+    if (!apply()) {
+      const mo = new MutationObserver(() => { if (apply()) mo.disconnect(); });
+      mo.observe(document.body, { childList: true, subtree: true });
+    }
+  })();
+
+script.
+  (() => {
+    const apply = () => {
+      const el = document.querySelector('#guestbook #comment');
+      if (!el) return false;
+      el.placeholder = 'Only logged-in users can leave a guestbook entry.';
+      return true;
+    };
+    if (!apply()) {
+      const mo = new MutationObserver(() => { if (apply()) mo.disconnect(); });
+      mo.observe(document.body, { childList: true, subtree: true });
+    }
+  })();
