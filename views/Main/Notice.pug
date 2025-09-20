@@ -9,31 +9,3 @@ style
     .tt_article_useless_p_margin [style*="color"] {
       color: inherit !important; /* bỏ hiệu lực inline color */
     }
-
-script.
-  (() => {
-    const apply = () => {
-      const el = document.querySelector('#guestbook #comment');
-      if (!el) return false;
-      el.placeholder = 'Only logged-in users can leave a guestbook entry.';
-      return true;
-    };
-    if (!apply()) {
-      const mo = new MutationObserver(() => { if (apply()) mo.disconnect(); });
-      mo.observe(document.body, { childList: true, subtree: true });
-    }
-  })();
-
-script.
-  (() => {
-    const apply = () => {
-      const el = document.querySelector('#guestbook #comment');
-      if (!el) return false;
-      el.placeholder = 'Only logged-in users can leave a guestbook entry.';
-      return true;
-    };
-    if (!apply()) {
-      const mo = new MutationObserver(() => { if (apply()) mo.disconnect(); });
-      mo.observe(document.body, { childList: true, subtree: true });
-    }
-  })();
